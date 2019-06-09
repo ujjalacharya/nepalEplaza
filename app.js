@@ -1,4 +1,5 @@
 const { errorHandler } = require("./helpers/dbErrorHandler");
+const expressValidator = require("express-validator");
 const mongoose = require("mongoose");
 const express = require("express");
 const morgan = require("morgan");
@@ -17,6 +18,7 @@ mongoose
 // Middlewares
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(expressValidator());
 
 // Routes
 app.use("/api", require("./routes/user"));
@@ -25,7 +27,7 @@ app.use("/api", require("./routes/user"));
 app.use(function(err, req, res, next) {
   console.log(err);
   return res.status(500).json({
-    error: errorHandler(err)
+    error: errorHandler(err) || 'Something went wrong!'
   });
 });
 

@@ -11,9 +11,7 @@ mongoose
   })
   .then(() => console.log("DB Connected"));
 
-app.get("/", (req, res) => {
-  res.send("hello from node");
-});
+app.use("/api", require("./routes/user"));
 
 const port = process.env.PORT || 8000;
 

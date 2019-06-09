@@ -1,3 +1,4 @@
+const { errorHandler } = require("./helpers/dbErrorHandler");
 const mongoose = require("mongoose");
 const express = require("express");
 const morgan = require("morgan");
@@ -22,8 +23,10 @@ app.use("/api", require("./routes/user"));
 
 // Error handling middleware
 app.use(function(err, req, res, next) {
- console.log(err);
- res.status(500).json({message: err.errmsg});
+  console.log(err);
+  return res.status(500).json({
+    error: errorHandler(err)
+  });
 });
 
 // Server initialization

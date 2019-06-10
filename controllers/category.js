@@ -19,3 +19,16 @@ exports.create = async (req, res) => {
 exports.read = (req, res) => {
   return res.json(req.category);
 };
+
+exports.update = async (req, res) => {
+  const category = req.category;
+  category.name = req.body.name;
+  const updatedcategory = await category.save();
+  res.json(updatedcategory);
+};
+
+exports.remove = async (req, res) => {
+  const category = req.category;
+  await category.remove();
+  res.json({ message: "Category successfully removed" });
+};

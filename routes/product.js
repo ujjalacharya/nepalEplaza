@@ -11,9 +11,12 @@ const {
 const { requireSignin, isAdmin } = require("../controllers/auth");
 
 router.post("/create", requireSignin, isAdmin, create);
-router.get("/:slug", read);
-router.put("/:slug", requireSignin, isAdmin, update);
-router.delete("/:slug", requireSignin, isAdmin, remove);
+
+router
+  .route("/:slug")
+  .get(read)
+  .put(requireSignin, isAdmin, update)
+  .delete(requireSignin, isAdmin, remove);
 
 router.param("slug", productBySlug);
 

@@ -1,8 +1,8 @@
-const router = require("express").Router();
-const { requireSignin } = require("../controllers/auth");
+const { requireSignin, isAuth, isAdmin } = require("../controllers/auth");
 const { userById } = require("../controllers/user");
+const router = require("express").Router();
 
-router.get("/secret/:userId", requireSignin, (req, res) => {
+router.get("/secret/:userId", requireSignin, isAuth, isAdmin, (req, res) => {
   res.json({ auth: req.auth, profile: req.profile });
 });
 

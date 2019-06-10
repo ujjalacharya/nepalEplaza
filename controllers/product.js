@@ -138,6 +138,14 @@ exports.remove = async (req, res) => {
 };
 
 exports.list = async (req, res) => {
-  let product = await Product.find({}).select("-photo").populate("category", "name");
-  res.json(product)
-}
+  let order = req.query.order ? req.query.order : "asc";
+  let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
+  let limit = req.query.limit ? parseInt(req.query.limit) : 6;
+
+  let product = await Product.find({})
+    .select("-photo")
+    .populate("category", "name")
+    .sort([[sortBy, order]])
+    .limit(limit);
+  res.json(product);
+};

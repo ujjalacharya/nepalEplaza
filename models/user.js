@@ -1,8 +1,6 @@
-var slug = require("mongoose-slug-generator");
 const mongoose = require("mongoose");
 const crypto = require("crypto");
 const uuidv1 = require("uuid/v1");
-mongoose.plugin(slug);
 
 const userSchema = new mongoose.Schema(
   {
@@ -38,13 +36,7 @@ const userSchema = new mongoose.Schema(
     history: {
       type: Array,
       default: []
-    },
-    // slug: {
-    //   type: String,
-    //   slug: "name",
-    //   unique: true,
-    //   slug_padding_size: 3
-    // }
+    }
   },
   { timestamps: true }
 );

@@ -1,4 +1,7 @@
+var slug = require("mongoose-slug-generator");
 const mongoose = require("mongoose");
+mongoose.plugin(slug);
+
 const { ObjectId } = mongoose.Schema;
 
 const productSchema = new mongoose.Schema(
@@ -35,6 +38,12 @@ const productSchema = new mongoose.Schema(
     shipping: {
       required: false,
       type: Boolean
+    },
+    slug: {
+      type: String,
+      slug: "name",
+      unique: true,
+      slug_padding_size: 3
     }
   },
   { timestamps: true }

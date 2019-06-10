@@ -27,7 +27,8 @@ exports.signin = async (req, res) => {
   }
 
   const payload = {
-    id: user.id,
+    _id: user.id,
+    name: user.name,
     role: user.role
   };
 
@@ -47,3 +48,30 @@ exports.signout = (req, res) => {
   res.clearCookie("t");
   res.json({ message: "Signout success" });
 };
+
+exports.requireSignin = async (req, res, next) => {
+  const token = req.headers.authorization;
+
+  if (token) {
+    const user = parseToken(token);
+
+    const founduser = await User.findById(user._id).select("name role");
+
+    if (founduser) {
+      req.auth = founduser;
+      next();
+    } else res.status(401).json({ error: "Not authorized!" });
+  } else {
+    res.status(401).json({ error: "Not authorized" });
+  }
+};
+
+function parseToken(token) {
+  try {
+    // For cookie
+    //   jwt.verify(token.split(";")[1].split("=")[1], process.env.JWT_SECRET)
+    return jwt.verify(token.split(" ")[1], process.env.JWT_SECRET);
+  } catch (err) {
+    return Error({ error: err.message });
+  }
+}

@@ -21,6 +21,7 @@ app.use(express.json());
 app.use(expressValidator());
 
 // Routes
+app.use("/api", require("./routes/auth"));
 app.use("/api", require("./routes/user"));
 
 // Error handling middleware

@@ -136,3 +136,8 @@ exports.remove = async (req, res) => {
     message: "Product deleted successfully"
   });
 };
+
+exports.list = async (req, res) => {
+  let product = await Product.find({}).select("-photo").populate("category", "name");
+  res.json(product)
+}

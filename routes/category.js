@@ -5,11 +5,14 @@ const {
   read,
   categoryById,
   update,
-  remove
+  remove,
+  list
 } = require("../controllers/category");
 const { requireSignin, isAdmin } = require("../controllers/auth");
 
 router.post("/create", requireSignin, isAdmin, create);
+
+router.get("/all", list)
 
 router
   .route("/:categoryId")

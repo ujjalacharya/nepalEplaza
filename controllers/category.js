@@ -32,3 +32,8 @@ exports.remove = async (req, res) => {
   await category.remove();
   res.json({ message: "Category successfully removed" });
 };
+
+exports.list = async (req, res) => {
+  let category = await Category.find({});
+  res.json(category)
+};

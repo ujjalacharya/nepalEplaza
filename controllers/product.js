@@ -73,3 +73,11 @@ exports.create = (req, res) => {
     });
   });
 };
+
+exports.remove = async (req, res) => {
+  let product = req.product;
+  await product.remove();
+  res.json({
+    message: "Product deleted successfully"
+  });
+};

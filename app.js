@@ -23,12 +23,13 @@ app.use(expressValidator());
 // Routes
 app.use("/api", require("./routes/auth"));
 app.use("/api", require("./routes/user"));
+app.use("/api", require("./routes/category"));
 
 // Error handling middleware
 app.use(function(err, req, res, next) {
   console.log(err);
   return res.status(500).json({
-    error: errorHandler(err) || 'Something went wrong!'
+    error: errorHandler(err) || "Something went wrong!"
   });
 });
 

@@ -168,3 +168,11 @@ exports.listRelated = async (req, res) => {
 
   res.json(relatedproduct);
 };
+
+exports.listCategories = async (req, res) => {
+  const categories = await Product.distinct("category");
+
+  if(!categories) return res.status(400).json({message: "No category found"});
+
+  res.json(categories);
+}

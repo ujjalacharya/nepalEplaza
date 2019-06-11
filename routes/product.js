@@ -8,7 +8,8 @@ const {
   update,
   remove,
   list,
-  listRelated
+  listRelated,
+  listCategories
 } = require("../controllers/product");
 const { requireSignin, isAdmin } = require("../controllers/auth");
 
@@ -17,6 +18,8 @@ router.post("/create", requireSignin, isAdmin, create);
 router.get("/all", list);
 
 router.get("/related/:slug", listRelated);
+
+router.get("/categories", listCategories)
 
 router
   .route("/:slug")

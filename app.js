@@ -23,7 +23,7 @@ app.use(expressValidator());
 
 // Routes
 app.use("/api", require("./routes/auth"));
-app.use("/api", require("./routes/user"));
+app.use("/api/user", require("./routes/user"));
 app.use("/api/category", require("./routes/category"));
 app.use("/api/product", require("./routes/product"));
 

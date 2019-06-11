@@ -149,3 +149,22 @@ exports.list = async (req, res) => {
     .limit(limit);
   res.json(product);
 };
+
+/**
+ * it will find the products based on the req product category
+ * other products that has the same category, will be returned
+ */
+
+exports.listRelated = async (req, res) => {
+  let limit = req.query.limit ? parseInt(req.query.limit) : 6;
+
+  const relatedproduct = await Product.find({
+    _id: { $ne: req.product },
+    category: req.product.category
+  })
+    .select("-photo")
+    .limit(limit)
+    .populate("category", "_id name");
+
+  res.json(relatedproduct);
+};

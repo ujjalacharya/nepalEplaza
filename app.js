@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const express = require("express");
 const morgan = require("morgan");
 require("express-async-errors");
+const cors = require("cors");
 require("dotenv").config();
 const app = express();
 
@@ -18,8 +19,9 @@ mongoose
 // Middlewares
 app.use(morgan("dev"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }));
 app.use(expressValidator());
+app.use(cors());
 
 // Routes
 app.use("/api", require("./routes/auth"));

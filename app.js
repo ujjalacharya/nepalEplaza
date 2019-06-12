@@ -1,6 +1,6 @@
 const { errorHandler } = require("./helpers/dbErrorHandler");
+const dbConnection = require("./helpers/dbConnection");
 const expressValidator = require("express-validator");
-const mongoose = require("mongoose");
 const express = require("express");
 const morgan = require("morgan");
 require("express-async-errors");
@@ -9,12 +9,7 @@ require("dotenv").config();
 const app = express();
 
 // Database Connection
-mongoose
-  .connect(process.env.DATABASE, {
-    useNewUrlParser: true,
-    useCreateIndex: true
-  })
-  .then(() => console.log("DB Connected"));
+dbConnection();
 
 // Middlewares
 app.use(morgan("dev"));

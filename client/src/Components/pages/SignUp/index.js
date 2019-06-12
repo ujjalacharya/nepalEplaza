@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Layout from "../../core/Layout";
 import Form from "./Form";
@@ -15,12 +15,12 @@ const Signup = () => {
 
   const { name, email, password, error, success } = state;
 
-  const handleChange = e => {
-    setState({ ...state, error: false, [e.target.name]: e.target.value });
+  const handleChange = event => {
+    setState({ ...state, error: false, [event.target.name]: event.target.value });
   };
 
-  const handleSubmit = async e => {
-    e.preventDefault();
+  const handleSubmit = async event => {
+    event.preventDefault();
     setState({ ...state, error: false });
     const data = await signUp({ name, email, password }).catch(err => {
       setState({ ...state, error: err.response.data.error });

@@ -1,6 +1,6 @@
 import React from "react";
 
-const Form = ({ handleChange, handleSubmit }) => {
+const Form = ({ handleChange, handleSubmit, state }) => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="form-group">
@@ -10,6 +10,7 @@ const Form = ({ handleChange, handleSubmit }) => {
           name="name"
           type="text"
           className="form-control"
+          value={state.name}
         />
       </div>
 
@@ -20,6 +21,7 @@ const Form = ({ handleChange, handleSubmit }) => {
           name="email"
           type="email"
           className="form-control"
+          value={state.email}
         />
       </div>
 
@@ -30,6 +32,7 @@ const Form = ({ handleChange, handleSubmit }) => {
           name="password"
           type="password"
           className="form-control"
+          value={state.password}
         />
       </div>
       <button className="btn btn-primary">Submit</button>

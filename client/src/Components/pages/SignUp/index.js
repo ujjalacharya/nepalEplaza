@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../core/Layout";
 import Form from "./Form";
+import { signUp } from "../../../Utils/Requests/Auth";
 
 const Signup = () => {
   const [state, setState] = useState({
@@ -11,17 +12,26 @@ const Signup = () => {
     success: false
   });
 
-  // useEffect(() => {
-  //   console.log(state);
-  // }, [state]);
+  const { name, email, password } = state;
 
   const handleChange = e => {
     setState({ ...state, error: false, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    console.log(state);
+    const data = await signUp({ name, email, password }).catch(err => {
+      console.log(err.response.data);
+      setState({ ...state, error: err.response.data.error });
+    });
+    if (data)
+      setState({
+        name: "",
+        email: "",
+        password: "",
+        error: "",
+        success: true
+      });
   };
 
   return (
@@ -30,7 +40,11 @@ const Signup = () => {
       description="Signup to nepalEPlaza"
       className="container col-md-8 offset-md-2"
     >
-      <Form handleChange={handleChange} handleSubmit={handleSubmit} />
+      <Form
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        state={state}
+      />
     </Layout>
   );
 };

@@ -3,21 +3,9 @@ import jwt from "jsonwebtoken";
 
 import { API, JWT_SECRET } from "../config";
 
-export const signUp = user => {
-  return axios({
-    method: "post",
-    url: `${API}/signup`,
-    data: user
-  });
-};
+export const signUp = user => axios.post(`${API}/signup`, user);
 
-export const signIn = user => {
-  return axios({
-    method: "post",
-    url: `${API}/signin`,
-    data: user
-  });
-};
+export const signIn = user => axios.post(`${API}/signin`, user);
 
 export const authenticate = (data, next) => {
   if (typeof window !== "undefined") {
@@ -36,7 +24,7 @@ export const isAuthenticated = () => {
   let data;
 
   if (jsontoken) {
-    let {token} = JSON.parse(jsontoken);
+    let { token } = JSON.parse(jsontoken);
     jwt.verify(token, JWT_SECRET, (err, decoded) => {
       if (err) {
         data = false;
@@ -47,5 +35,13 @@ export const isAuthenticated = () => {
     return data;
   } else {
     return false;
+  }
+};
+
+export const signout = () => {
+  if (typeof window !== "undefined") {
+    localStorage.removeItem("jwt");
+
+    return axios.get(`${API}/signout`);
   }
 };

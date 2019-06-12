@@ -25,7 +25,7 @@ const Signup = () => {
     const data = await signUp({ name, email, password }).catch(err => {
       setState({ ...state, error: err.response.data.error });
     });
-    if (data)
+    if (data && data.status === 200)
       setState({
         name: "",
         email: "",

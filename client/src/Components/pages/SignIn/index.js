@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Layout from "../../core/Layout";
 import Form from "../SignIn/Form";
-import { signIn } from "../../../Utils/Requests/Auth";
+import { signIn, authenticate } from "../../../Utils/Requests/Auth";
 import { Redirect } from "react-router-dom";
 
 const SignIn = () => {
@@ -29,10 +29,12 @@ const SignIn = () => {
     const data = await signIn({ email, password }).catch(err => {
       setState({ ...state, error: err.response.data.error });
     });
-    if (data) {
-      setState({
-        ...state,
-        redirectToReferrer: true
+    if (data && data.status === 200) {
+      authenticate(data, () => {
+        setState({
+          ...state,
+          redirectToReferrer: true
+        });
       });
     }
   };

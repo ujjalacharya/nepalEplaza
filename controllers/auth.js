@@ -122,4 +122,5 @@ exports.refreshToken = async (req, res) => {
 
     return res.json({ token });
   }
+  return res.json({ error: "Invalid content" });
 };

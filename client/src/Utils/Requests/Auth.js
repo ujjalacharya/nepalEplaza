@@ -30,7 +30,8 @@ export const isAuthenticated = () => {
         data = false;
         await signout();
       } else {
-        data = JSON.parse(jsontoken);
+        let parsedtoken = JSON.parse(jsontoken);
+        data = { ...parsedtoken, user: { ...decoded } };
       }
     });
     return data;

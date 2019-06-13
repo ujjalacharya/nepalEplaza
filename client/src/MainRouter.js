@@ -11,7 +11,7 @@ const MainRouter = () => (
    <Route path="/" exact component={Home}/>
    <Route path="/signin" exact component={SignIn}/>
    <Route path="/signup" exact component={SignUp}/>
-   <PrivateRoute path="/secret" exact component={UserDashboard} />
+   <PrivateRoute path="/dashboard" exact component={UserDashboard} />
  </Switch>
 );
 

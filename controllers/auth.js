@@ -29,6 +29,7 @@ exports.signin = async (req, res) => {
   const payload = {
     _id: user.id,
     name: user.name,
+    email: user.email,
     role: user.role
   };
 
@@ -40,8 +41,8 @@ exports.signin = async (req, res) => {
 
   res.cookie("t", token, { expire: new Date() + 9999 });
 
-  const { _id, email: mail, name, role } = user;
-  return res.json({ token, user: { _id, mail, name, role } });
+  // const { _id, email: mail, name, role } = user;
+  return res.json({ token });
 };
 
 exports.signout = (req, res) => {
@@ -77,7 +78,10 @@ function parseToken(token) {
 }
 
 exports.isAuth = (req, res, next) => {
-  let user = req.profile && req.auth && req.profile._id.toString() === req.auth._id.toString();
+  let user =
+    req.profile &&
+    req.auth &&
+    req.profile._id.toString() === req.auth._id.toString();
   if (!user) {
     return res.status(403).json({
       error: "Access denied"

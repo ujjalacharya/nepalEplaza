@@ -10,9 +10,9 @@ const {
 } = require("../controllers/category");
 const { requireSignin, isAdmin } = require("../controllers/auth");
 
-router.post("/create", requireSignin, isAdmin, create);
+router.post("/", requireSignin, isAdmin, create);
 
-router.get("/all", list)
+router.get("/", list)
 
 router
   .route("/:categoryId")

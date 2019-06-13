@@ -25,9 +25,10 @@ export const isAuthenticated = () => {
 
   if (jsontoken) {
     let { token } = JSON.parse(jsontoken);
-    jwt.verify(token, JWT_SECRET, (err, decoded) => {
+    jwt.verify(token, JWT_SECRET, async (err, decoded) => {
       if (err) {
         data = false;
+        await signout();
       } else {
         data = JSON.parse(jsontoken);
       }

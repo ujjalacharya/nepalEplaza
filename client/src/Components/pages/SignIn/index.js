@@ -6,8 +6,8 @@ import { Redirect } from "react-router-dom";
 
 const SignIn = () => {
   const [state, setState] = useState({
-    email: "",
-    password: "",
+    email: "acharyaujjal1@gmail.com",
+    password: "123456",
     error: "",
     loading: false,
     redirectToReferrer: false
@@ -47,7 +47,7 @@ const SignIn = () => {
     </div>
   );
 
-  const redirectUser = () => redirectToReferrer && <Redirect to="/" />;
+  const redirectUser = () => <Redirect to="/" />;
 
   return (
     <Layout title="SignIn">
@@ -60,7 +60,7 @@ const SignIn = () => {
           state={state}
         />
       )}
-      {redirectUser()}
+      {redirectToReferrer && redirectUser()}
     </Layout>
   );
 };

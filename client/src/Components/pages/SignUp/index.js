@@ -16,7 +16,11 @@ const Signup = () => {
   const { name, email, password, error, success } = state;
 
   const handleChange = event => {
-    setState({ ...state, error: false, [event.target.name]: event.target.value });
+    setState({
+      ...state,
+      error: false,
+      [event.target.name]: event.target.value
+    });
   };
 
   const handleSubmit = async event => {
@@ -35,20 +39,10 @@ const Signup = () => {
       });
   };
 
-  const showError = () => (
-    <div
-      className="alert alert-danger"
-      style={{ display: error ? "" : "none" }}
-    >
-      {error}
-    </div>
-  );
+  const showError = () => <div className="alert alert-danger">{error}</div>;
 
   const showSuccess = () => (
-    <div
-      className="alert alert-info"
-      style={{ display: success ? "" : "none" }}
-    >
+    <div className="alert alert-info">
       New account is created. Please <Link to="/signin">Signin</Link>
     </div>
   );
@@ -59,8 +53,8 @@ const Signup = () => {
       description="Signup to nepalEPlaza"
       className="container col-md-8 offset-md-2"
     >
-      {showSuccess()}
-      {showError()}
+      {success && showSuccess()}
+      {error && showError()}
       <Form
         handleChange={handleChange}
         handleSubmit={handleSubmit}

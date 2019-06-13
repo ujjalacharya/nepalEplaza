@@ -73,7 +73,7 @@ function parseToken(token) {
     //   jwt.verify(token.split(";")[1].split("=")[1], process.env.JWT_SECRET)
     return jwt.verify(token.split(" ")[1], process.env.JWT_SECRET);
   } catch (err) {
-    return Error({ error: err.message });
+    return res.status(400).json({ error: err.message });
   }
 }
 
@@ -97,4 +97,29 @@ exports.isAdmin = (req, res, next) => {
     });
   }
   next();
+};
+
+exports.refreshToken = async (req, res) => {
+  if (req.body && req.body.token) {
+    const parsed = parseToken(`Bearer ${req.body.token}`);
+
+    const user = await User.findById(parsed._id);
+
+    const payload = {
+      _id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role
+    };
+
+    const token = jwt.sign(
+      payload,
+      process.env.JWT_SECRET
+      // {expiresIn:"1h"}
+    );
+
+    res.cookie("t", token, { expire: new Date() + 9999 });
+
+    return res.json({ token });
+  }
 };

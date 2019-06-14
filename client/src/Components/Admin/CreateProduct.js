@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../core/Layout";
 import { isAuthenticated } from "../../Utils/Requests/Auth";
-import { createProduct } from "../../Utils/Requests/Admin";
+import { createProduct, getAllCategories } from "../../Utils/Requests/Admin";
 
 const CreateProduct = () => {
   const [values, setValues] = useState({
@@ -20,7 +20,6 @@ const CreateProduct = () => {
     formData: ""
   });
 
-  const { user, token } = isAuthenticated();
   const {
     name,
     description,
@@ -36,14 +35,32 @@ const CreateProduct = () => {
     formData
   } = values;
 
+  // load categories and set form data
+  const init = async () => {
+    const result = await getAllCategories().catch(err => {
+      setValues({
+        ...values,
+        error: err.response.data.error
+      });
+    });
+
+    if (result && result.status === 200) {
+      setValues({
+        ...values,
+        categories: result.data,
+        formData: new FormData()
+      });
+    }
+  };
+
   useEffect(() => {
-    setValues({ ...values, formData: new FormData() });
+    init();
   }, []);
 
   const handleChange = name => event => {
     const value = name === "photo" ? event.target.files[0] : event.target.value;
     formData.set(name, value);
-    setValues({ ...values, [name]: value });
+    setValues({ ...values, createdProduct: "", error: "", [name]: value });
   };
 
   const clickSubmit = async event => {
@@ -54,6 +71,7 @@ const CreateProduct = () => {
       setValues({ ...values, error: err.response.data.error });
     });
     if (result && result.status === 200) {
+      console.log(result);
       setValues({
         ...values,
         name: "",
@@ -65,19 +83,13 @@ const CreateProduct = () => {
         error: "",
         category: "",
         shipping: "",
-        createdProduct: result.name
+        createdProduct: result.data.name
       });
     }
   };
 
-  const showError = () => 
-    error &&  (
-      <div className="row">
-        <div className="col-md-8 offset-md-2">
-          <h3 className="text-danger">{error}</h3>
-        </div>
-      </div>
-    );
+  const showError = () =>
+    error && <div className="alert alert-danger">{error}</div>;
 
   const showSuccess = () =>
     createdProduct && (
@@ -139,8 +151,13 @@ const CreateProduct = () => {
       <div className="form-group">
         <label className="text-muted">Category</label>
         <select onChange={handleChange("category")} className="form-control">
-          <option value="5d027446f4b2bb3ed492eb39">Book</option>
-          <option value="5d027762863f8b15b83af16a">Computer</option>
+          <option>Please select</option>
+          {categories &&
+            categories.map((category, i) => (
+              <option key={i} value={category._id}>
+                {category.name}
+              </option>
+            ))}
         </select>
       </div>
 
@@ -169,7 +186,7 @@ const CreateProduct = () => {
   return (
     <Layout
       title="Add a new product"
-      description={`G'day ${user.name}, ready to add a new product?`}
+      description={`G'day admin, ready to add a new product?`}
     >
       {showError()}
       {showLoading()}

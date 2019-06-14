@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Layout from "../../core/Layout";
 
 import { getProducts } from "../../../Utils/Requests/Home";
+import Card from "../../core/Card";
 
 const Home = () => {
   const [error, setError] = useState(false);
@@ -36,10 +37,24 @@ const Home = () => {
   }, []);
 
   return (
-    <Layout title="Home page">
-      {JSON.stringify(productsByArrival)}
-      <hr />
-      {JSON.stringify(productsBySell)}
+    <Layout
+      title="Home Page"
+      description="NepalEPlaza"
+      className="container-fluid"
+    >
+      <h2 className="mb-4">New Arrivals</h2>
+      <div className="row">
+        {productsByArrival.map((product, i) => (
+          <Card key={i} product={product} />
+        ))}
+      </div>
+
+      <h2 className="mb-4">Best Sellers</h2>
+      <div className="row">
+        {productsBySell.map((product, i) => (
+          <Card key={i} product={product} />
+        ))}
+      </div>
     </Layout>
   );
 };

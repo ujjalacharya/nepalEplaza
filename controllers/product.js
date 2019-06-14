@@ -5,7 +5,7 @@ const Product = require("../models/Product");
 const { errorHandler } = require("../helpers/dbErrorHandler");
 
 exports.productBySlug = async (req, res, next, slug) => {
-  const product = await Product.findOne({ slug }).populate("category", "name");
+  const product = await Product.findOne({ slug });
   if (!product) {
     return res.status(400).json({
       error: "Product not found"
@@ -75,21 +75,6 @@ exports.update = (req, res) => {
     if (err) {
       return res.status(400).json({
         error: "Image could not be uploaded"
-      });
-    }
-    // check for all fields
-    const { name, description, price, category, quantity, shipping } = fields;
-
-    if (
-      !name ||
-      !description ||
-      !price ||
-      !category ||
-      !quantity ||
-      !shipping
-    ) {
-      return res.status(400).json({
-        error: "All fields are required"
       });
     }
 

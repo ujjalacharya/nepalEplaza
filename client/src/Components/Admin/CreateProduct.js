@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../core/Layout";
+import { isAuthenticated } from "../../Utils/Requests/Auth";
+import { createProduct } from "../../Utils/Requests/Admin";
 
 const CreateProduct = () => {
-  const [state, setState] = useState({
+  const [values, setValues] = useState({
     name: "",
     description: "",
     price: "",
@@ -18,6 +20,7 @@ const CreateProduct = () => {
     formData: ""
   });
 
+  const { user, token } = isAuthenticated();
   const {
     name,
     description,
@@ -31,21 +34,64 @@ const CreateProduct = () => {
     createdProduct,
     redirectToProfile,
     formData
-  } = state;
+  } = values;
 
   useEffect(() => {
-    setState({ ...state, formData: new FormData() });
+    setValues({ ...values, formData: new FormData() });
   }, []);
 
   const handleChange = name => event => {
     const value = name === "photo" ? event.target.files[0] : event.target.value;
     formData.set(name, value);
-    setState({ ...state, [name]: value });
+    setValues({ ...values, [name]: value });
   };
 
-  const clickSubmit = event => {
+  const clickSubmit = async event => {
     event.preventDefault();
+    setValues({ ...values, error: "", loading: true });
+
+    const result = await createProduct(formData).catch(err => {
+      setValues({ ...values, error: err.response.data.error });
+    });
+    if (result && result.status === 200) {
+      setValues({
+        ...values,
+        name: "",
+        description: "",
+        photo: "",
+        price: "",
+        quantity: "",
+        loading: false,
+        error: "",
+        category: "",
+        shipping: "",
+        createdProduct: result.name
+      });
+    }
   };
+
+  const showError = () => 
+    error &&  (
+      <div className="row">
+        <div className="col-md-8 offset-md-2">
+          <h3 className="text-danger">{error}</h3>
+        </div>
+      </div>
+    );
+
+  const showSuccess = () =>
+    createdProduct && (
+      <div className="alert alert-info">
+        <h2>{`${createdProduct}`} is created!</h2>
+      </div>
+    );
+
+  const showLoading = () =>
+    loading && (
+      <div className="alert alert-success">
+        <h2>Loading...</h2>
+      </div>
+    );
 
   const newPostForm = () => (
     <form className="mb-3" onSubmit={clickSubmit}>
@@ -93,7 +139,8 @@ const CreateProduct = () => {
       <div className="form-group">
         <label className="text-muted">Category</label>
         <select onChange={handleChange("category")} className="form-control">
-          <option value="5cde522ad8b1ff1b89c36987">Python</option>
+          <option value="5d027446f4b2bb3ed492eb39">Book</option>
+          <option value="5d027762863f8b15b83af16a">Computer</option>
         </select>
       </div>
 
@@ -120,16 +167,17 @@ const CreateProduct = () => {
   );
 
   return (
-    <>
-      <Layout
-        title="Add a new product"
-        description={`G'day admin, ready to add a new product?`}
-      >
-        <div className="row">
-          <div className="col-md-8 offset-md-2">{newPostForm()}</div>
-        </div>
-      </Layout>
-    </>
+    <Layout
+      title="Add a new product"
+      description={`G'day ${user.name}, ready to add a new product?`}
+    >
+      {showError()}
+      {showLoading()}
+      {showSuccess()}
+      <div className="row">
+        <div className="col-md-8 offset-md-2">{newPostForm()}</div>
+      </div>
+    </Layout>
   );
 };
 

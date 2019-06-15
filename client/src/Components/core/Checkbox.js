@@ -14,7 +14,6 @@ const Checkbox = ({ categories, handleFilters }) => {
       newCheckedCategoryId.splice(currentCategoryId, 1);
     }
     setCheked(newCheckedCategoryId);
-    console.log(newCheckedCategoryId)
     handleFilters(newCheckedCategoryId)
   };
 
@@ -24,7 +23,6 @@ const Checkbox = ({ categories, handleFilters }) => {
         type="checkbox"
         className="form-check-input"
         onChange={handleChange(category._id)}
-        // value={checked.indexOf(category._id === -1)}
       />
       <label className="form-check-label">{category.name}</label>
     </li>

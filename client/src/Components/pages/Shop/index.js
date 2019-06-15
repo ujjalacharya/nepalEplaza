@@ -3,6 +3,8 @@ import Layout from "../../core/Layout";
 import Card from "../../core/Card";
 import { getAllCategories } from "../../../Utils/Requests/Shared";
 import Checkbox from "../../core/Checkbox";
+import RadioBox from "../../core/RadioBox";
+import {prices} from "../../core/fixedPrice";
 
 const Shop = () => {
   const [categories, setCategories] = useState([]);
@@ -28,7 +30,7 @@ const Shop = () => {
 
   useEffect(() => {
     init();
-    console.log(myFilters)
+    console.log(myFilters);
   }, [myFilters]);
 
   return (
@@ -48,6 +50,14 @@ const Shop = () => {
               />
             }
           </ul>
+
+          <h4>Filter by price range</h4>
+          <div>
+            <RadioBox
+              prices={prices}
+              handleFilters={filters => handleFilters(filters, "price")}
+            />
+          </div>
         </div>
 
         <div className="col-8">right</div>

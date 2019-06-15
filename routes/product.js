@@ -11,6 +11,7 @@ const {
   listRelated,
   listCategories,
   listByFilter,
+  listBySearch,
   photo
 } = require("../controllers/product");
 const { requireSignin, isAdmin } = require("../controllers/auth");
@@ -20,6 +21,8 @@ router.post("/", requireSignin, isAdmin, create);
 router.get("/", list);
 
 router.post("/filter", listByFilter);
+
+router.get("/search", listBySearch);
 
 router.get("/related/:slug", listRelated);
 

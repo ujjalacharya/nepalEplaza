@@ -1,5 +1,6 @@
 import axios from "axios";
 import { API } from "../config";
+import queryString from "query-string";
 
 export const getProducts = sortBy => {
   return axios.get(`${API}/products?sortBy=${sortBy}&order=desc`);
@@ -14,4 +15,10 @@ export const getFilteredProducts = (skip, limit, filters = {}) => {
     filters
   };
   return axios.post(`${API}/products/filter`, data);
+};
+
+export const list = params => {
+  const query = queryString.stringify(params);
+  console.log("query", query);
+  return axios.get(`${API}/products/search?${query}`);
 };

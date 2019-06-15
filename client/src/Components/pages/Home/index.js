@@ -3,6 +3,7 @@ import Layout from "../../core/Layout";
 
 import { getProducts } from "../../../Utils/Requests/Shared";
 import Card from "../../core/Card";
+import Search from "../../core/Search";
 
 const Home = () => {
   const [error, setError] = useState(false);
@@ -42,6 +43,7 @@ const Home = () => {
       description="NepalEPlaza"
       className="container-fluid"
     >
+      <Search />
       <h2 className="mb-4">New Arrivals</h2>
       <div className="row">
         {productsByArrival.map((product, i) => (

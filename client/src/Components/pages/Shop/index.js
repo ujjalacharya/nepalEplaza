@@ -2,10 +2,15 @@ import React, { useState, useEffect } from "react";
 import Layout from "../../core/Layout";
 import Card from "../../core/Card";
 import { getAllCategories } from "../../../Utils/Requests/Shared";
+import Checkbox from "../../core/Checkbox";
 
 const Shop = () => {
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState(false);
+
+  const [myFilters, setMyFilters] = useState({
+    filters: { category: [], price: [] }
+  });
 
   const init = async () => {
     const result = await getAllCategories().catch(err => {
@@ -15,9 +20,16 @@ const Shop = () => {
     if (result) setCategories(result.data);
   };
 
+  const handleFilters = (filters, filterBy) => {
+    const newFilters = { ...myFilters };
+    newFilters.filters[filterBy] = filters;
+    setMyFilters(newFilters);
+  };
+
   useEffect(() => {
     init();
-  }, []);
+    console.log(myFilters)
+  }, [myFilters]);
 
   return (
     <Layout
@@ -26,7 +38,17 @@ const Shop = () => {
       className="container-fluid"
     >
       <div className="row">
-        <div className="col-4">{JSON.stringify(categories)}</div>
+        <div className="col-4">
+          <h4>Filter by categories</h4>
+          <ul>
+            {
+              <Checkbox
+                categories={categories}
+                handleFilters={filters => handleFilters(filters, "category")}
+              />
+            }
+          </ul>
+        </div>
 
         <div className="col-8">right</div>
       </div>

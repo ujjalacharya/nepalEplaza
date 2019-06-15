@@ -172,23 +172,20 @@ exports.listBySearch = async (req, res) => {
   let skip = parseInt(req.body.skip) || 0;
   let findArgs = {};
 
-  // console.log(order, sortBy, limit, skip, req.body.filters);
-  console.log("findArgs", findArgs);
+  for (let key in req.body.filters) {
+    if (req.body.filters[key].length > 0) {
+      if (key === "price") {
+        findArgs[key] = {
+          $gte: req.body.filters[key][0],
+          $lte: req.body.filters[key][1]
+        };
+      } else {
+        findArgs[key] = req.body.filters[key];
+      }
+    }
+  }
 
-  // for (let key in req.body.filters) {
-  //   if (req.body.filters[key].length > 0) {
-  //     if (key === "price") {
-  //       // gte -  greater than price [0-10]
-  //       // lte - less than 
-  //       findArgs[key] = {
-  //         $gte: req.body.filters[key][0],
-  //         $lte: req.body.filters[key][1]
-  //       };
-  //     } else {
-  //       findArgs[key] = req.body.filters[key];
-  //     }
-  //   }
-  // }
+  console.log("findArgs", findArgs);
 
   const product = await Product.find(findArgs)
     .select("-photo")

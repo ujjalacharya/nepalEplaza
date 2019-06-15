@@ -19,7 +19,7 @@ router.post("/", requireSignin, isAdmin, create);
 
 router.get("/", list);
 
-router.get("/search", listBySearch);
+router.post("/search", listBySearch);
 
 router.get("/related/:slug", listRelated);
 

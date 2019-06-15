@@ -37,7 +37,7 @@ const Shop = () => {
     ).catch(err => setError(err.response.data.error));
 
     if (filteredProducts) {
-      setFilteredResults(filteredProducts.data);
+      setFilteredResults(filteredProducts.data.product);
     }
   };
 
@@ -76,7 +76,7 @@ const Shop = () => {
       className="container-fluid"
     >
       <div className="row">
-        <div className="col-4">
+        <div className="col-md-2">
           <h4>Filter by categories</h4>
           <ul>
             {
@@ -96,7 +96,14 @@ const Shop = () => {
           </div>
         </div>
 
-        <div className="col-8">{JSON.stringify(filteredResults)}</div>
+        <div className="col-md-10">
+          <h2 className="mb-4 text-center">Products</h2>
+          <div className="row">
+            {filteredResults.map((product, i) => (
+              <Card key={i} product={product} />
+            ))}
+          </div>
+        </div>
       </div>
     </Layout>
   );

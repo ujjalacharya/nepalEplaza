@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Layout from "../core/Layout";
-import { isAuthenticated } from "../../Utils/Requests/Auth";
 import { Link } from "react-router-dom";
 import { createCategory } from "../../Utils/Requests/Admin";
 

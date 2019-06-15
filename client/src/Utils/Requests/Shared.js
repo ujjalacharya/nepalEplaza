@@ -4,3 +4,5 @@ import { API } from "../config";
 export const getProducts = sortBy => {
  return axios.get(`${API}/products?sortBy=${sortBy}&order=desc`);
 }
+
+export const getAllCategories = () => axios.get(`${API}/categories`);

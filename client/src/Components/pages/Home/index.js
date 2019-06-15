@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../core/Layout";
 
-import { getProducts } from "../../../Utils/Requests/Home";
+import { getProducts } from "../../../Utils/Requests/Shared";
 import Card from "../../core/Card";
 
 const Home = () => {

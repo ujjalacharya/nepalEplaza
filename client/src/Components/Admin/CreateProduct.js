@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../core/Layout";
-import { isAuthenticated } from "../../Utils/Requests/Auth";
-import { createProduct, getAllCategories } from "../../Utils/Requests/Admin";
+import { createProduct } from "../../Utils/Requests/Admin";
+import { getAllCategories } from "../../Utils/Requests/Shared";
 
 const CreateProduct = () => {
   const [values, setValues] = useState({

@@ -158,14 +158,14 @@ exports.listCategories = async (req, res) => {
 };
 
 /**
- * list products by search
+ * list products by filter
  * Will implement product search in react frontend
  * Will show categories in checkbox and price range in radio buttons
  * as the user clicks on those checkbox and radio buttons
  * Will make api request and show the products to users based on what he wants
  */
 
-exports.listBySearch = async (req, res) => {
+exports.listByFilter = async (req, res) => {
   let order = req.body.order ? req.body.order : "desc";
   let sortBy = req.body.sortBy ? req.body.sortBy : "_id";
   let limit = req.body.limit ? parseInt(req.body.limit) : 100;

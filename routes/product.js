@@ -10,7 +10,7 @@ const {
   list,
   listRelated,
   listCategories,
-  listBySearch,
+  listByFilter,
   photo
 } = require("../controllers/product");
 const { requireSignin, isAdmin } = require("../controllers/auth");
@@ -19,7 +19,7 @@ router.post("/", requireSignin, isAdmin, create);
 
 router.get("/", list);
 
-router.post("/search", listBySearch);
+router.post("/filter", listByFilter);
 
 router.get("/related/:slug", listRelated);
 

@@ -13,5 +13,5 @@ export const getFilteredProducts = (skip, limit, filters = {}) => {
     skip,
     filters
   };
-  return axios.post(`${API}/products/search`, data);
+  return axios.post(`${API}/products/filter`, data);
 };

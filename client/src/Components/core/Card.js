@@ -1,25 +1,64 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ShowImage from "./ShowImage";
+import moment from "moment";
 
-const Card = ({ product }) => {
-  return (
-    <div className="col-md-4 col-sm-12">
-      <div className="card">
-        <div className="card-header">{product.name}</div>
-        <div className="card-body">
-          <ShowImage url="products" item={product}/>
-          <p>{product.description}</p>
-          <p>Rs {product.price}</p>
-          <Link to={`/products/${product.slug}`}>
-            <button className="btn btn-outline-primary mt-2 mb-2">
-              View Product
-            </button>
-          </Link>
-          <button className="btn btn-outline-warning mt-2 mb-2">
-            Add to card
+const Card = ({ product, viewProduct = true }) => {
+  const [values, setValues] = useState({
+    cardSize: "col-md-4"
+  });
+
+  const showViewButton = () => {
+    return (
+      viewProduct && (
+        <Link to={`/products/${product.slug}`} className="mr-2">
+          <button className="btn btn-outline-primary mt-2 mb-2">
+            View Product
           </button>
-        </div>
+        </Link>
+      )
+    );
+  };
+
+  const showAddToCartButton = () => {
+    return (
+      <button className="btn btn-outline-warning mt-2 mb-2">Add to cart</button>
+    );
+  };
+
+  const showStock = quantity => {
+    return quantity > 0 ? (
+      <span className="badge badge-primary badge-pill">In Stock</span>
+    ) : (
+      <span className="badge badge-primary badge-pill">Out of Stock</span>
+    );
+  };
+
+  useEffect(() => {
+    console.log(viewProduct)
+    !viewProduct && setValues({ ...values, cardSize: "col-md-8" });
+  }, []);
+
+  return (
+    <div className={`card ${values.cardSize}`}>
+      <div className="card-header name">{product.name}</div>
+      <div className="card-body">
+        <ShowImage item={product} url="products" />
+        <p className="lead mt-2">{product.description.substring(0, 100)}</p>
+        <p className="black-10">Rs {product.price}</p>
+        <p className="black-9">
+          Category: {product.category && product.category.name}
+        </p>
+        <p className="black-8">
+          Added {moment(product.createdAt).fromNow()}
+        </p>
+
+        {showStock(product.quantity)}
+        <br />
+
+        {showViewButton()}
+
+        {showAddToCartButton()}
       </div>
     </div>
   );

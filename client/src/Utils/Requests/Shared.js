@@ -21,3 +21,5 @@ export const list = params => {
   const query = queryString.stringify(params);
   return axios.get(`${API}/products/search?${query}`);
 };
+
+export const getProductBySlug = slug => axios.get(`${API}/products/${slug}`);

@@ -19,6 +19,5 @@ export const getFilteredProducts = (skip, limit, filters = {}) => {
 
 export const list = params => {
   const query = queryString.stringify(params);
-  console.log("query", query);
   return axios.get(`${API}/products/search?${query}`);
 };

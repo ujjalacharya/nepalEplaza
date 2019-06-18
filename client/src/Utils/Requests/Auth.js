@@ -1,11 +1,11 @@
 import axios from "axios";
 import jwt from "jsonwebtoken";
 
-import { API, JWT_SECRET } from "../config";
+import { JWT_SECRET } from "../config";
 
-export const signUp = user => axios.post(`${API}/signup`, user);
+export const signUp = user => axios.post('/signup', user);
 
-export const signIn = user => axios.post(`${API}/signin`, user);
+export const signIn = user => axios.post('/signin', user);
 
 export const authenticate = (data, next) => {
   if (typeof window !== "undefined") {
@@ -44,6 +44,6 @@ export const signout = () => {
   if (typeof window !== "undefined") {
     localStorage.removeItem("jwt");
 
-    return axios.get(`${API}/signout`);
+    return axios.get('/signout');
   }
 };

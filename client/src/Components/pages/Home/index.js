@@ -7,17 +7,20 @@ import Search from "../../core/Search";
 
 const Home = () => {
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [productsByArrival, setProductsByArrival] = useState([]);
   const [productsBySell, setProductsBySell] = useState([]);
 
   const getProductsByArrival = async () => {
     const result = await getProducts("createdAt").catch(err => {
       setError(err.response.data.error);
+      setLoading(false)
     });
 
     if (result && result.status === 200) {
       setProductsByArrival(result.data);
       setError(false);
+      setLoading(false)
     }
   };
 
@@ -39,8 +42,8 @@ const Home = () => {
 
   return (
     <Layout
-      title="Home Page"
-      description="NepalEPlaza"
+      title= {loading ? "Loading..." : "Home Page"}
+      description= {loading ? "" : "NepalEPlaza"}
       className="container-fluid"
     >
       <Search />

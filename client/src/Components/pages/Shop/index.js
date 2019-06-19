@@ -15,6 +15,7 @@ const Shop = () => {
   });
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [limit, setLimit] = useState(3);
   const [size, setSize] = useState(0);
   const [skip, setSkip] = useState(0);
@@ -35,10 +36,14 @@ const Shop = () => {
       skip,
       limit,
       newFilters
-    ).catch(err => setError(err.response.data.error));
+    ).catch(err => {
+      setError(err.response.data.error);
+      setLoading(false);
+    });
 
     if (filteredProducts) {
       setFilteredResults(filteredProducts.data.product);
+      setLoading(false);
       setSize(filteredProducts.data.size);
       setSkip(0);
     }
@@ -77,7 +82,10 @@ const Shop = () => {
     ).catch(err => setError(err.response.data.error));
 
     if (filteredProducts) {
-      setFilteredResults([...filteredResults, ...filteredProducts.data.product]);
+      setFilteredResults([
+        ...filteredResults,
+        ...filteredProducts.data.product
+      ]);
       setSize(filteredProducts.data.size);
       setSkip(toSkip);
     }
@@ -100,8 +108,8 @@ const Shop = () => {
 
   return (
     <Layout
-      title="Shop Page"
-      description="Search and find books of your choice"
+      title={loading ? "Loading..." : "Shop Page"}
+      description={loading ? "" : "Search and find books of your choice"}
       className="container-fluid"
     >
       <div className="row">
@@ -132,8 +140,8 @@ const Shop = () => {
               <Card key={i} product={product} />
             ))}
           </div>
-        <hr />
-        {loadMoreButton()}
+          <hr />
+          {loadMoreButton()}
         </div>
       </div>
     </Layout>

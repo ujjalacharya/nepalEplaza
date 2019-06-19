@@ -3,10 +3,7 @@ import { Link } from "react-router-dom";
 import ShowImage from "./ShowImage";
 import moment from "moment";
 
-const Card = ({ product, viewProduct = true }) => {
-  const [values, setValues] = useState({
-    cardSize: "col-md-4"
-  });
+const Card = ({ product, viewProduct = true, className="col-md-4" }) => {
 
   const showViewButton = () => {
     return (
@@ -34,13 +31,9 @@ const Card = ({ product, viewProduct = true }) => {
     );
   };
 
-  useEffect(() => {
-    console.log(viewProduct)
-    !viewProduct && setValues({ ...values, cardSize: "col-md-8" });
-  }, []);
-
   return (
-    <div className={`card ${values.cardSize}`}>
+    <div className={`card ${className} mt-4`}>
+      {console.log(product.name)}
       <div className="card-header name">{product.name}</div>
       <div className="card-body">
         <ShowImage item={product} url="products" />

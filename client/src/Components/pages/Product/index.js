@@ -1,25 +1,47 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../core/Layout";
-import { getProductBySlug } from "../../../Utils/Requests/Shared";
+import {
+  getProductBySlug,
+  getRelatedProducts
+} from "../../../Utils/Requests/Shared";
 import Card from "../../core/Card";
 
 const Product = props => {
   const [values, setValues] = useState({
     product: "",
-    error: "",
-    loading: false
+    error: ""
   });
 
+  const [loading, setLoading] = useState(true);
+
+  const [relatedProducts, setRelatedProducts] = useState([]);
+
   const { product } = values;
+
+  const loadRelatedProducts = async slug => {
+    const relatedProducts = await getRelatedProducts(slug).catch(err => {
+      setValues({ ...values, error: err.response.data.error });
+    });
+    if (relatedProducts && relatedProducts.status === 200) {
+      setRelatedProducts(relatedProducts.data);
+    }
+  };
 
   const loadProduct = async () => {
     const slug = props.match.params.slug;
     const product = await getProductBySlug(slug).catch(err => {
       setValues({ ...values, error: err.response.data.error });
+      setLoading(false);
     });
 
     if (product && product.status === 200) {
-      setValues({ ...values, error: false, product: product.data });
+      setValues({
+        ...values,
+        error: false,
+        product: product.data
+      });
+      setLoading(false);
+      loadRelatedProducts(slug);
     }
   };
 
@@ -29,7 +51,7 @@ const Product = props => {
 
   return (
     <Layout
-      title={product && product.name}
+      title={loading ? "Loading..." : product && product.name}
       description={
         product && product.description && product.description.substring(0, 100)
       }
@@ -37,7 +59,20 @@ const Product = props => {
     >
       <div className="row">
         {product && product.description && (
-          <Card product={product} viewProduct={false} />
+          <Card className="col-md-7" product={product} viewProduct={false} />
+        )}
+        {relatedProducts.length > 0 && (
+          <>
+            <div className="col-md-1" />
+            <div className="col-md-3">
+              <h4 className="text-center">Similar products</h4>
+              <Card
+                className=""
+                product={relatedProducts[0]}
+                viewProduct={false}
+              />
+            </div>
+          </>
         )}
       </div>
     </Layout>

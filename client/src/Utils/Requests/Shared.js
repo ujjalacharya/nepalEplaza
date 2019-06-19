@@ -22,3 +22,5 @@ export const list = params => {
 };
 
 export const getProductBySlug = slug => axios.get(`/products/${slug}`);
+
+export const getRelatedProducts = slug => axios.get(`/products/related/${slug}`)

@@ -4,6 +4,7 @@ const expressValidator = require("express-validator");
 const express = require("express");
 const morgan = require("morgan");
 require("express-async-errors");
+const path = require("path");
 const cors = require("cors");
 require("dotenv").config();
 const app = express();

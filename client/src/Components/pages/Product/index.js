@@ -9,12 +9,13 @@ import Card from "../../core/Card";
 const Product = props => {
   const [values, setValues] = useState({
     product: "",
-    error: ""
+    error: "",
   });
 
   const [loading, setLoading] = useState(true);
 
   const [relatedProducts, setRelatedProducts] = useState([]);
+  const [randomNumber, setRandomNumber] = useState(0);
 
   const { product } = values;
 
@@ -23,7 +24,9 @@ const Product = props => {
       setValues({ ...values, error: err.response.data.error });
     });
     if (relatedProducts && relatedProducts.status === 200) {
+      const randomNumber = Math.floor(Math.random() * Math.floor(relatedProducts.data.length));
       setRelatedProducts(relatedProducts.data);
+      setRandomNumber(randomNumber)
     }
   };
 
@@ -49,6 +52,10 @@ const Product = props => {
     loadProduct();
   }, []);
 
+  useEffect(() => {
+    loadProduct();
+  }, [props.match.params.slug]);
+
   return (
     <Layout
       title={loading ? "Loading..." : product && product.name}
@@ -68,8 +75,8 @@ const Product = props => {
               <h4 className="text-center">Similar products</h4>
               <Card
                 className=""
-                product={relatedProducts[0]}
-                viewProduct={false}
+                product={relatedProducts[randomNumber]}
+                viewProduct={true}
               />
             </div>
           </>

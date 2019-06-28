@@ -71,6 +71,7 @@ function parseToken(token) {
   try {
     // For cookie
     //   jwt.verify(token.split(";")[1].split("=")[1], process.env.JWT_SECRET)
+    // req.headers.authorization.startsWith('Bearer')
     return jwt.verify(token.split(" ")[1], process.env.JWT_SECRET);
   } catch (err) {
     return res.status(400).json({ error: err.message });

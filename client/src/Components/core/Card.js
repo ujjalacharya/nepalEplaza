@@ -33,7 +33,6 @@ const Card = ({ product, viewProduct = true, className="col-md-4" }) => {
 
   return (
     <div className={`card ${className} mt-4`}>
-      {console.log(product.name)}
       <div className="card-header name">{product.name}</div>
       <div className="card-body">
         <ShowImage item={product} url="products" />

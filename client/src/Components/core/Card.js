@@ -1,11 +1,15 @@
-import React, {useState} from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, Redirect } from "react-router-dom";
 import ShowImage from "./ShowImage";
 import moment from "moment";
-import {addToCart} from "../../Utils/cartUtil";
+import { addToCart } from "../../Utils/cartUtil";
 
-const Card = ({ product, viewProduct = true, className="col-md-4" }) => {
-
+const Card = ({
+  product,
+  viewProduct = true,
+  className = "col-md-4",
+  addToCartButton = true
+}) => {
   const [redirect, setRedirect] = useState(false);
 
   const showViewButton = () => {
@@ -21,14 +25,21 @@ const Card = ({ product, viewProduct = true, className="col-md-4" }) => {
   };
 
   const handleAddCart = () => {
-    addToCart(product, ()=>{
+    addToCart(product, () => {
       setRedirect(true);
-    })
-  }
+    });
+  };
 
   const showAddToCartButton = () => {
     return (
-      <button className="btn btn-outline-warning mt-2 mb-2" onClick={handleAddCart}>Add to cart</button>
+      addToCartButton && (
+        <button
+          className="btn btn-outline-warning mt-2 mb-2"
+          onClick={handleAddCart}
+        >
+          Add to cart
+        </button>
+      )
     );
   };
 
@@ -42,6 +53,7 @@ const Card = ({ product, viewProduct = true, className="col-md-4" }) => {
 
   return (
     <div className={`card ${className} mt-4`}>
+      {redirect && <Redirect to="/cart" />}
       <div className="card-header name">{product.name}</div>
       <div className="card-body">
         <ShowImage item={product} url="products" />
@@ -50,9 +62,7 @@ const Card = ({ product, viewProduct = true, className="col-md-4" }) => {
         <p className="black-9">
           Category: {product.category && product.category.name}
         </p>
-        <p className="black-8">
-          Added {moment(product.createdAt).fromNow()}
-        </p>
+        <p className="black-8">Added {moment(product.createdAt).fromNow()}</p>
 
         {showStock(product.quantity)}
         <br />

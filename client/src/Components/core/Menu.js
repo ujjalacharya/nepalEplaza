@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import { signout, isAuthenticated } from "../../Utils/Requests/Auth";
 
@@ -13,12 +13,6 @@ const isActive = (history, path) => {
 };
 
 const Menu = ({ history }) => {
-
-  const [cartSize, setCartSize] = useState(0);
-
-  useEffect(() => {
-    setCartSize(cartLength());
-  }, [])
 
   return(
     <div>
@@ -101,7 +95,7 @@ const Menu = ({ history }) => {
               </span>
             </li>
             <li className="mr-2 m-auto" style={{ color: "#000" }}>
-              <span>Cart Item: {cartSize}</span>
+              <span>Cart Item: {cartLength()}</span>
             </li>
           </>
         )}

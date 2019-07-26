@@ -1,7 +1,6 @@
 export const addToCart = (item, next) => {
   let cart = [];
   if (typeof window !== "undefined") {
-    console.log(item);
     if (localStorage.getItem("cart")) {
       cart = JSON.parse(localStorage.getItem("cart"));
     }
@@ -18,4 +17,14 @@ export const addToCart = (item, next) => {
     localStorage.setItem("cart", JSON.stringify(cart));
     next();
   }
+};
+
+export const cartLength = () => {
+  let cart = [];
+  if (typeof window !== "undefined") {
+    if (localStorage.getItem("cart")) {
+      cart = JSON.parse(localStorage.getItem("cart"));
+    }
+   }
+   return cart.length;
 };

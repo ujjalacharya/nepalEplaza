@@ -1,9 +1,12 @@
-import React from "react";
+import React, {useState} from "react";
 import { Link } from "react-router-dom";
 import ShowImage from "./ShowImage";
 import moment from "moment";
+import {addToCart} from "../../Utils/cartUtil";
 
 const Card = ({ product, viewProduct = true, className="col-md-4" }) => {
+
+  const [redirect, setRedirect] = useState(false);
 
   const showViewButton = () => {
     return (
@@ -17,9 +20,15 @@ const Card = ({ product, viewProduct = true, className="col-md-4" }) => {
     );
   };
 
+  const handleAddCart = () => {
+    addToCart(product, ()=>{
+      setRedirect(true);
+    })
+  }
+
   const showAddToCartButton = () => {
     return (
-      <button className="btn btn-outline-warning mt-2 mb-2">Add to cart</button>
+      <button className="btn btn-outline-warning mt-2 mb-2" onClick={handleAddCart}>Add to cart</button>
     );
   };
 

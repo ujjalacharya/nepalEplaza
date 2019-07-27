@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, Redirect } from "react-router-dom";
 import ShowImage from "./ShowImage";
 import moment from "moment";
-import { addToCart } from "../../Utils/cartUtil";
+import { addToCart, removeCart, checkItemInCart } from "../../Utils/cartUtil";
 
 const Card = ({
   product,
   viewProduct = true,
   className = "col-md-4",
-  addToCartButton = true
+  addToCartButton = true,
+  showRemoveProductButton = false
 }) => {
   const [redirect, setRedirect] = useState(false);
 
@@ -30,6 +31,12 @@ const Card = ({
     });
   };
 
+  const handleRemoveButton = () => {
+    removeCart(product._id, ()=>{
+      setRedirect(true);
+    })
+  }
+
   const showAddToCartButton = () => {
     return (
       addToCartButton && (
@@ -38,6 +45,19 @@ const Card = ({
           onClick={handleAddCart}
         >
           Add to cart
+        </button>
+      )
+    );
+  };
+
+  const showRemoveButton = () => {
+    return (
+      showRemoveProductButton && (
+        <button
+          className="btn btn-outline-danger mt-2 mb-2"
+          onClick={handleRemoveButton}
+        >
+          Remove from cart
         </button>
       )
     );
@@ -70,6 +90,8 @@ const Card = ({
         {showViewButton()}
 
         {showAddToCartButton()}
+
+        {showRemoveButton()}
       </div>
     </div>
   );

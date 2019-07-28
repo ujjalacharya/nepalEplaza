@@ -80,6 +80,18 @@ const Menu = ({ history }) => {
         )}
         {isAuthenticated() && (
           <>
+          <li className="nav-item">
+                <Link
+                    className="nav-link"
+                    style={isActive(history, "/cart")}
+                    to="/cart"
+                >
+                    Cart{" "}
+                    <sup>
+                        <small className="cart-badge">{cartLength()}</small>
+                    </sup>
+                </Link>
+            </li>
             <li className="nav-item">
               <span
                 className="nav-link"
@@ -93,9 +105,6 @@ const Menu = ({ history }) => {
               >
                 Signout
               </span>
-            </li>
-            <li className="mr-2 m-auto" style={{ color: "#000" }}>
-              <span>Cart Item: {cartLength()}</span>
             </li>
           </>
         )}

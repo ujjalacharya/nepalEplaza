@@ -32,6 +32,13 @@
   animation: Gradient 15s ease infinite;
 }
 
+sup {
+  color: #fff;
+  background: #000;
+  padding: 0.2rem;
+  border-radius: 50%;
+}
+
 @-webkit-keyframes Gradient {
   0% {
     background-position: 0% 50%;

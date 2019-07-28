@@ -44,7 +44,7 @@ const Cart = () => {
             className="container-fluid"
         >
             <div className="row">
-                <div>
+                <div className="col-6">
                     {items.length > 0 ? showItems(items) : noItemsMessage()}
                 </div>
 

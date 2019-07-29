@@ -12,7 +12,7 @@ const { requireSignin, isAdmin } = require("../controllers/auth");
 
 router.post("/", requireSignin, isAdmin, create);
 
-router.get("/", list)
+router.get("/", list);
 
 router
   .route("/:categoryId")

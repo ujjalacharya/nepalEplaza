@@ -24,6 +24,7 @@ app.use("/api", require("./routes/auth"));
 app.use("/api/user", require("./routes/user"));
 app.use("/api/categories", require("./routes/category"));
 app.use("/api/products", require("./routes/product"));
+app.use("/api/braintree", require("./routes/braintree"));
 
 // Error handling middleware
 app.use(function(err, req, res, next) {

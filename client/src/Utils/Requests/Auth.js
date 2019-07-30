@@ -49,3 +49,7 @@ export const signout = () => {
     return axios.get("/signout");
   }
 };
+
+export const getBraintreeClientToken = () => {
+  return axios.get("/braintree/getToken")
+}

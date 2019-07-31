@@ -21,7 +21,7 @@ const MainRouter = () => (
     <Route path="/signup" exact component={SignUp} />
     <Route path="/products/:slug" exact component={Product} />
     <PrivateRoute path="/dashboard" exact component={UserDashboard} />
-    <PrivateRoute path="/cart" exact component={Cart} />
+    <Route path="/cart" exact component={Cart} />
     <AdminRoute path="/admin/dashboard" exact component={AdminDashboard} />
     <AdminRoute path="/create/category" exact component={CreateCategory} />
     <AdminRoute path="/create/product" exact component={CreateProduct} />

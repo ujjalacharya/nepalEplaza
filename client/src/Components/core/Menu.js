@@ -2,7 +2,7 @@ import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import { signout, isAuthenticated } from "../../Utils/Requests/Auth";
 
-import {cartLength} from "../../Utils/cartUtil";
+import { cartLength } from "../../Utils/cartUtil";
 
 const isActive = (history, path) => {
   if (history.location.pathname === path) {
@@ -13,8 +13,7 @@ const isActive = (history, path) => {
 };
 
 const Menu = ({ history }) => {
-
-  return(
+  return (
     <div>
       <ul className="nav nav-tabs bg-primary">
         <li className="nav-item">
@@ -30,6 +29,19 @@ const Menu = ({ history }) => {
             to="/shop"
           >
             Shop
+          </Link>
+        </li>
+
+        <li className="nav-item">
+          <Link
+            className="nav-link"
+            style={isActive(history, "/cart")}
+            to="/cart"
+          >
+            Cart{" "}
+            <sup>
+              <small className="cart-badge">{cartLength()}</small>
+            </sup>
           </Link>
         </li>
 
@@ -79,34 +91,20 @@ const Menu = ({ history }) => {
           </li>
         )}
         {isAuthenticated() && (
-          <>
           <li className="nav-item">
-                <Link
-                    className="nav-link"
-                    style={isActive(history, "/cart")}
-                    to="/cart"
-                >
-                    Cart{" "}
-                    <sup>
-                        <small className="cart-badge">{cartLength()}</small>
-                    </sup>
-                </Link>
-            </li>
-            <li className="nav-item">
-              <span
-                className="nav-link"
-                style={{ cursor: "pointer", color: "#ffffff" }}
-                onClick={async () => {
-                  const result = await signout().catch(err => console.log(err));
-                  if (result) {
-                    history.push("/");
-                  }
-                }}
-              >
-                Signout
-              </span>
-            </li>
-          </>
+            <span
+              className="nav-link"
+              style={{ cursor: "pointer", color: "#ffffff" }}
+              onClick={async () => {
+                const result = await signout().catch(err => console.log(err));
+                if (result) {
+                  history.push("/");
+                }
+              }}
+            >
+              Signout
+            </span>
+          </li>
         )}
       </ul>
     </div>

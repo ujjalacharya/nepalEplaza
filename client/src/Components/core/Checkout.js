@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getBraintreeClientToken } from "../../Utils/Requests/Auth";
-import { isAuthenticated } from "../../Utils/Requests/Auth";
+import { isAuthenticated, processPayment } from "../../Utils/Requests/Auth";
 import { Link } from "react-router-dom";
 import "braintree-web";
 import DropIn from "braintree-web-drop-in-react";
@@ -51,17 +51,31 @@ const Checkout = ({ products }) => {
     let getNonce = data.instance
       .requestPaymentMethod()
       .then(data => {
+        // console.log(data);
         nonce = data.nonce;
         // once you have nonce (card type, card number) send nonce as 'paymentMethodNonce'
         // and also total to be charged
-        console.log(
-          "send nonce and total to process: ",
-          nonce,
-          getTotal(products)
-        );
+        // console.log(
+        //     "send nonce and total to process: ",
+        //     nonce,
+        //     getTotal(products)
+        // );
+        const paymentData = {
+          paymentMethodNonce: nonce,
+          amount: getTotal(products)
+        };
+
+        processPayment(paymentData)
+          .then(response => {
+            // console.log(response
+            setData({ ...data, success: response.success });
+            // empty cart
+            // create order
+          })
+          .catch(error => console.log(error));
       })
       .catch(error => {
-        console.log("dropin error: ", error);
+        // console.log("dropin error: ", error);
         setData({ ...data, error: error.message });
       });
   };
@@ -74,7 +88,10 @@ const Checkout = ({ products }) => {
             options={{
               authorization: data.clientToken
             }}
-            onInstance={instance => (data.instance = instance)}
+            onInstance={instance => {
+              data.instance = instance;
+              console.log(data);
+            }}
           />
           <button onClick={buy} className="btn btn-success btn-block">
             Pay

@@ -51,5 +51,9 @@ export const signout = () => {
 };
 
 export const getBraintreeClientToken = () => {
-  return axios.get("/braintree/getToken")
-}
+  return axios.get("/braintree/getToken");
+};
+
+export const processPayment = paymentData => {
+  return axios.post("/braintree/payment", paymentData);
+};

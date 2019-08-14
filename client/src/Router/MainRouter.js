@@ -12,6 +12,7 @@ import CreateProduct from "../Components/Admin/CreateProduct";
 import Cart from "../Components/pages/Cart";
 import Shop from "../Components/pages/Shop";
 import Product from "../Components/pages/Product";
+import Profile from "../Components/pages/Profile";
 
 const MainRouter = () => (
   <Switch>
@@ -20,8 +21,9 @@ const MainRouter = () => (
     <Route path="/signin" exact component={SignIn} />
     <Route path="/signup" exact component={SignUp} />
     <Route path="/products/:slug" exact component={Product} />
-    <PrivateRoute path="/dashboard" exact component={UserDashboard} />
     <Route path="/cart" exact component={Cart} />
+    <PrivateRoute path="/dashboard" exact component={UserDashboard} />
+    <PrivateRoute path="/profile/:userId" exact component={Profile} />
     <AdminRoute path="/admin/dashboard" exact component={AdminDashboard} />
     <AdminRoute path="/create/category" exact component={CreateCategory} />
     <AdminRoute path="/create/product" exact component={CreateProduct} />
